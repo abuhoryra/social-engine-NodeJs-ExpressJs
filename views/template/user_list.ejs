@@ -1,0 +1,24 @@
+ <style type="text/css">
+ .btn{
+ 	padding: 0px 10px;
+ 	margin-left: 10px;
+ }
+ </style>
+  <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">User List</h5>
+        <hr>
+        <% for(let i =0; i<data.length; i++){ %>
+       	
+    <li><img class="img-responsive" src="<%= imgurl %>uploads/<%= data[i].image %>" height="40" width="40" style="background:deepskyblue;"> <a href="/users/user_profile/<%= data[i].id %>"> <%= data[i].first_name+' '+data[i].last_name %> </a>
+
+    <% if(username  && data[i].status == 1 ){ %>
+    <button type="button" class="btn btn-warning btn-sm" disabled = "disabled">Followed</button><hr>
+<% } else{ %>  
+  <a href="/users/frd_request/<%= data[i].id %>" class="btn btn-success btn-sm btn-rounded">Follow</a> </li> <hr> 
+
+<% } %>
+
+        
+  <% } %>
+      </div>

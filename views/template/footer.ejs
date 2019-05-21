@@ -1,0 +1,120 @@
+ <style type="text/css">
+ .wrapper{
+  width:90%;
+  max-width:1200px;margin:0 auto;
+  clear:both;
+}
+
+
+
+/*/////// Navigation ///////*/
+#navigation h1 {
+  font-size:18px;  
+  font-weight:400;
+  margin-bottom:20px;
+}
+#navigation {
+	position: relative;
+	/*margin-top: 300px;*/
+	float: left;
+  background:transparent;
+  margin:0 1% 0 1% ;
+
+}
+#navigation,#navlist{
+  min-width:300px;
+  widht:220px;margin:15px;
+}
+
+#navlist li {
+  font-size:1.4em;
+  font-weight:300;
+  line-height:160%;
+	display: block;
+	text-decoration: none;
+	padding:5px 0 5px 0;
+	list-style: none;
+	border-bottom: 1px solid #e0e0e0;
+}
+#navlist li:last-child{border:none;}
+#navlist li a {text-decoration:none;color:#444;}
+/*#navlist li a:hover {}*/
+
+#navlist li a{
+  font-weight:300!important;
+}
+#navlist li:after{
+content:'\f105'!important;font-family:"font awesome"!important;
+float:right;}
+
+
+
+/**ARROWS**/
+i {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;float:right;
+}
+
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+ </style>
+
+<section class="wrapper">
+  <div id="navigation">
+    
+    <h1>Navigation A</h1> 
+    <ul id="navlist">   
+      <li><a href="#">Home</a>
+    </i>
+      
+      </li>
+      <li>Our Workspace</li>
+      <li>How We Work</li>
+      <li>About us</li>
+      <li>Contact Us</li>
+    </ul>
+  </div>
+  
+  <div id="navigation">
+    <h1>Navigation B</h1>
+    <ul id="navlist">
+      <li>Home</li>
+      <li>Our Workspace</li>
+      <li>How We Work</li>
+      <li>About us</li>
+      <li>Contact Us</li>
+    </ul>
+  </div>
+  
+<div id="navigation">
+    <h1>Navigation C</h1>
+    <ul id="navlist">
+      <li>Home</li>
+      <li>Our Workspace</li>
+      <li>How We Work</li>
+      <li>About us</li>
+      <li>Contact Us</li>
+    </ul>
+  </div>
+
+</section>
