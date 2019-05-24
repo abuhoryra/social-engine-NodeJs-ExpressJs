@@ -13,6 +13,7 @@
  	padding: 0px 10px;
  	margin-left: 10px;
  }
+
  </style>
 </head>
 <body>
@@ -26,7 +27,7 @@
         <hr>
         <% for(let i =0; i<data.length; i++){ %>
        	
-    <li style="list-style:none;"><img class="img-responsive" src="<%= imgurl %>uploads/<%= data[i].image %>" height="40" width="40" style="background:deepskyblue;"> <a href="/users/user_profile/<%= data[i].id %>"> <%= data[i].first_name+' '+data[i].last_name %> </a>
+    <li style="list-style:none;"><img class="img-responsive" src="<%= imgurl %>uploads/<%= data[i].image %>" height="40" width="40"> <a href="/users/user_profile/<%= data[i].id %>"> <%= data[i].first_name+' '+data[i].last_name %> </a>
 
     <% if(username  && data[i].status == 1 ){ %>
     <button type="button" class="btn btn-warning btn-sm" disabled = "disabled">Followed</button><hr>
@@ -43,12 +44,31 @@
 
     </div>
     <div class="col-md-6">
-      <div class="input-group">
+
+       <% if (errors) { %>
+		<ul>
+		<% for (let i=0; i < errors.length; i++) { %>	
+			
+			<div class="alert alert-danger" id="error_bar" role="alert">
+<%= errors[i].msg%><button type="button" class="close" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+		<%}%>
+		</ul>
+	<%}%>
+
+    	<form method="post" action="users/post">     
+    	 <div class="input-group">
   <div class="input-group-prepend">
     <span class="input-group-text">Post</span>
   </div>
-  <textarea class="form-control" aria-label="With textarea"></textarea>
+  <textarea class="form-control" name="post" aria-label="With textarea" placeholder="Write your post here......"></textarea>
 </div>
+<br>
+<button type="submit" class="btn1 btn-primary" style="border: none; float: right; padding: 5px 25px; border-radius: 10px;">Post</button>
+</form>
+
     </div>
     <div class="col-md-3">
 <div class="card-group">
@@ -80,7 +100,13 @@
   </div>
 </div>
    
-
+ <script type="text/javascript">
+  $(document).ready(function(){
+  $("button").click(function(){
+     $(this).closest("#error_bar").remove();
+  });
+});
+</script>
 
 </body>
 </html>

@@ -109,9 +109,12 @@ function renderHomePage(req, res) {
         name: req.follow,
         follow:req.follower,
         username: req.session.username,
-        imgurl: baseurl
+        imgurl: baseurl,
+        success: req.session.success, 
+        errors: req.session.errors 
         //follow: req.follow
     });
+
 }
 
 

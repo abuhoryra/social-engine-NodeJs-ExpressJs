@@ -7,6 +7,7 @@ var path = require('path');
 var baseurl = 'http://localhost:3000/';
 var fs = require('fs');
 require('./users');
+var expressValidator = require('express-validator');
 const multer = require('multer');
 const imgfile = './public/uploads/';
 router.use(express.static(path.join(__dirname, 'public')));
@@ -189,6 +190,36 @@ router.get('/user_profile/:id', function(req, res, next){
         	});
         }
 	 });
+});
+
+router.post('/post', function(req, res, next){
+    req.checkBody('post', 'Post Field is Empty').notEmpty();
+   
+ 
+ 
+    const errors = req.validationErrors();
+    if(!errors){
+    var post = req.body.post;
+    var sql= "INSERT INTO post(member_id,post) VALUES(?, ?)";
+   connection.query(sql, [req.session.key,post], function(error, row) {
+        if(error){
+          res.send("Not Work");
+
+        }
+
+        else{
+           req.session.success = true;
+           req.session.errors = null;
+           res.redirect(baseurl+'home');
+        }
+   });
+}
+else{
+  console.log(errors);
+  req.session.errors = errors;
+  req.session.success = false;
+  res.redirect(baseurl+'home');
+}
 });
 
 module.exports = router;
