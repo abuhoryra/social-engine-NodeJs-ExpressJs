@@ -8,21 +8,79 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  
+   <style type="text/css">
+ .btn{
+ 	padding: 0px 10px;
+ 	margin-left: 10px;
+ }
+ </style>
 </head>
 <body>
-<% include template/login_navbar.ejs %>
-<div class="container-fluid">
-<div class="row" style="margin-top: 1%;">
-<div class="col-md-3">
-<% include template/user_list.ejs %>
+	<% include template/login_navbar.ejs %>
+<div class="container-fluid mt-3">
+  <div class="row">
+    <div class="col-md-3">
+  <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">User List</h5>
+        <hr>
+        <% for(let i =0; i<data.length; i++){ %>
+       	
+    <li style="list-style:none;"><img class="img-responsive" src="<%= imgurl %>uploads/<%= data[i].image %>" height="40" width="40" style="background:deepskyblue;"> <a href="/users/user_profile/<%= data[i].id %>"> <%= data[i].first_name+' '+data[i].last_name %> </a>
 
-</div>
-</div>
-</div>
+    <% if(username  && data[i].status == 1 ){ %>
+    <button type="button" class="btn btn-warning btn-sm" disabled = "disabled">Followed</button><hr>
+<% } else{ %>  
+  <a href="/users/frd_request/<%= data[i].id %>" class="btn btn-success btn-sm btn-rounded">Follow</a> </li> <hr> 
 
+<% } %>
+
+        
+  <% } %>
+      </div>
+  </div>
+
+
+    </div>
+    <div class="col-md-6">
+      <div class="input-group">
+  <div class="input-group-prepend">
+    <span class="input-group-text">Post</span>
+  </div>
+  <textarea class="form-control" aria-label="With textarea"></textarea>
 </div>
+    </div>
+    <div class="col-md-3">
+<div class="card-group">
+  <div class="card">
+    
+    <div class="card-body">
+      <h5 class="card-title">Follower</h5>
+      <% for(var i=0; i < follow.length; i++) { %>
+   <p><%= follow[i].first_name+' '+follow[i].last_name %></p>
+
+<% } %>
+     
+    </div>
+  </div>
+  <div class="card">
+  
+    <div class="card-body">
+      <h5 class="card-title">Followed</h5>
+     <% for(var i=0; i < name.length; i++) { %>
+   <p><%= name[i].first_name+' '+name[i].last_name %></p>
+
+<% } %>
+      
+    </div>
+  </div>
+  
 </div>
+    </div>
+  </div>
 </div>
+   
+
+
 </body>
 </html>

@@ -36,8 +36,11 @@ router.get('/login', function(req, res, next) {
 router.get('/signup', function(req, res, next) {
   res.render('signup', { title: 'Express',errors: req.session.errors});
 });
-router.get('/home', function(req, res, next) {
-	if(req.session.username){
+router.get('/home', getUser, getFollow, getFollower, renderHomePage);
+
+function getUser(req, res, next){
+
+		if(req.session.username){
 	
  
   var sql = "SELECT signup.*, frd_request.* FROM signup LEFT JOIN frd_request ON signup.id=frd_request.receiver_id AND frd_request.sender_id= ? WHERE signup.username NOT IN(SELECT signup.username FROM signup WHERE signup.username = ?) ORDER BY signup.id";
@@ -46,22 +49,75 @@ router.get('/home', function(req, res, next) {
          	res.send(err);
          }
          else{
-         	res.render('home', {
-         	    title: 'Express',
-         		data: result,
-         		username: req.session.username,
-         		id: req.session.key,
-         		imgurl: baseurl
-         	});
+         	
+         	req.user = result;
+         	return next();
+      
          }
       	
     });
- //res.render('home', { title: 'Express', username: req.session.username });
+
 }
 else{
 	res.render('login', { title: 'Express' });
+ }
+
 }
-});
+
+function getFollow(req, res, next){
+    
+    
+    var tql = "SELECT s.id,s.first_name,s.last_name,s.username,f.f_id,f.sender_id,f.receiver_id FROM signup s left join frd_request f ON f.receiver_id=s.id WHERE f.sender_id = ?";
+	 connection.query(tql,[req.session.key], function(error, result) {
+  
+
+   
+    
+        req.follow = result;
+        next();
+
+        
+	 });
+
+	 }
+   
+   
+   function getFollower(req, res, next){
+    
+    
+    var tql = "SELECT s.id,s.first_name,s.last_name,s.username,f.f_id,f.sender_id,f.receiver_id FROM signup s left join frd_request f ON f.sender_id=s.id WHERE f.receiver_id = ?";
+	 connection.query(tql,[req.session.key], function(error, row) {
+  
+
+   
+    
+        req.follower = row;
+        next();
+
+        
+	 });
+
+	 }
+   
+
+
+
+function renderHomePage(req, res) {
+    res.render('home', {
+    	title: 'Express',
+        data: req.user,
+        name: req.follow,
+        follow:req.follower,
+        username: req.session.username,
+        imgurl: baseurl
+        //follow: req.follow
+    });
+}
+
+
+
+
+
 
 router.get('/logout', function(req, res, next){
      req.session.destroy();

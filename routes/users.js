@@ -6,6 +6,7 @@ var indexRouter = require('../routes/index');
 var path = require('path');
 var baseurl = 'http://localhost:3000/';
 var fs = require('fs');
+require('./users');
 const multer = require('multer');
 const imgfile = './public/uploads/';
 router.use(express.static(path.join(__dirname, 'public')));
@@ -189,4 +190,5 @@ router.get('/user_profile/:id', function(req, res, next){
         }
 	 });
 });
+
 module.exports = router;
