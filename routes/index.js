@@ -36,7 +36,7 @@ router.get('/login', function(req, res, next) {
 router.get('/signup', function(req, res, next) {
   res.render('signup', { title: 'Express',errors: req.session.errors});
 });
-router.get('/home', getUser, getFollow, getFollower, renderHomePage);
+router.get('/home', getUser, getFollow, getFollower, getPost, getOwnPost, renderHomePage);
 
 function getUser(req, res, next){
 
@@ -67,7 +67,7 @@ else{
 function getFollow(req, res, next){
     
     
-    var tql = "SELECT s.id,s.first_name,s.last_name,s.username,f.f_id,f.sender_id,f.receiver_id FROM signup s left join frd_request f ON f.receiver_id=s.id WHERE f.sender_id = ?";
+    var tql = "SELECT s.id,s.first_name,s.last_name,s.username,f.f_id,f.sender_id,f.receiver_id,f.status FROM signup s left join frd_request f ON f.receiver_id=s.id WHERE f.sender_id = ? AND f.status = 1";
 	 connection.query(tql,[req.session.key], function(error, result) {
   
 
@@ -85,7 +85,7 @@ function getFollow(req, res, next){
    function getFollower(req, res, next){
     
     
-    var tql = "SELECT s.id,s.first_name,s.last_name,s.username,f.f_id,f.sender_id,f.receiver_id FROM signup s left join frd_request f ON f.sender_id=s.id WHERE f.receiver_id = ?";
+    var tql = "SELECT s.id,s.first_name,s.last_name,s.username,f.f_id,f.sender_id,f.receiver_id FROM signup s left join frd_request f ON f.sender_id=s.id WHERE f.receiver_id = ? AND f.status = 1";
 	 connection.query(tql,[req.session.key], function(error, row) {
   
 
@@ -107,6 +107,8 @@ function renderHomePage(req, res) {
     	title: 'Express',
         data: req.user,
         name: req.follow,
+        post: req.post,
+        ownpost: req.ownpost,
         follow:req.follower,
         username: req.session.username,
         imgurl: baseurl,
@@ -118,6 +120,40 @@ function renderHomePage(req, res) {
 }
 
 
+function getPost(req, res, next) {
+
+	var sql = "SELECT DISTINCT p.member_id,p.post,f.sender_id,f.receiver_id FROM post p left JOIN frd_request f ON f.receiver_id=p.member_id WHERE f.sender_id = ? ORDER BY post_id desc";
+    
+	connection.query(sql,[req.session.key], function(err, post){
+
+		if(err){
+			res.send("Not Work");
+		}
+
+		else {
+			req.post = post;
+			next();
+		}
+
+	});
+}
+function getOwnPost(req, res, next) {
+
+	var sql = "SELECT * FROM post WHERE member_id = ? ORDER BY post_id desc";
+    
+	connection.query(sql,[req.session.key], function(err, ownpost){
+
+		if(err){
+			res.send("Not Work");
+		}
+
+		else {
+			req.ownpost = ownpost;
+			next();
+		}
+
+	});
+}
 
 
 

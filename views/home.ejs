@@ -63,11 +63,27 @@
   <div class="input-group-prepend">
     <span class="input-group-text">Post</span>
   </div>
-  <textarea class="form-control" name="post" aria-label="With textarea" placeholder="Write your post here......"></textarea>
+  <textarea class="form-control" name="post" required aria-label="With textarea" placeholder="Write your post here......"></textarea>
 </div>
 <br>
 <button type="submit" class="btn1 btn-primary" style="border: none; float: right; padding: 5px 25px; border-radius: 10px;">Post</button>
 </form>
+
+
+   
+
+
+<h1>Posts</h1>
+  <% for(var i=0; i < ownpost.length; i++) { %>
+   <p><%= ownpost[i].post  %></p>
+
+<% } %>
+
+ <% for(var i=0; i < post.length; i++) { %>
+   <p><%= post[i].post  %></p>
+
+<% } %>
+
 
     </div>
     <div class="col-md-3">
